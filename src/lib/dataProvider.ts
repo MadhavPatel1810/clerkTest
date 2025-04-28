@@ -6,8 +6,8 @@ const httpClient = fetchUtils.fetchJson;
 
 export const dataProvider: DataProvider = {
   getList: async (resource, params) => {
-    const { page, perPage } = params.pagination;
-    const { field, order } = params.sort;
+    const { page, perPage } = params.pagination!;
+    const { field, order } = params.sort!;
     const query = {
       page,
       limit: perPage,

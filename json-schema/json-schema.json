@@ -1,0 +1,519 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "category": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Category"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "postToMediaRels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostToMediaRel"
+          }
+        }
+      },
+      "required": [
+        "userId",
+        "text"
+      ]
+    },
+    "PostToMediaRel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "post": {
+          "$ref": "#/definitions/Post"
+        },
+        "media": {
+          "$ref": "#/definitions/Media"
+        }
+      },
+      "required": [
+        "postId",
+        "mediaId"
+      ]
+    },
+    "Media": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "postToMediaRels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostToMediaRel"
+          }
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "posts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Post"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "childrenCategories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        "parentCategory": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Category"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "Post": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Post"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Account": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "providerAccountId": {
+          "type": "string"
+        },
+        "refresh_token": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "access_token": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expires_at": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "token_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id_token": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "session_state": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "required": [
+        "userId",
+        "type",
+        "provider",
+        "providerAccountId"
+      ]
+    },
+    "Session": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sessionToken": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "required": [
+        "sessionToken",
+        "userId",
+        "expires"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "emailVerified": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "post": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Post"
+          }
+        },
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Account"
+          }
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Session"
+          }
+        },
+        "settings": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UserSettings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": []
+    },
+    "UserSettings": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "language": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userId",
+        "language"
+      ]
+    },
+    "VerificationToken": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "identifier",
+        "token",
+        "expires"
+      ]
+    },
+    "AdminUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "emailVerified": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "default": "READER",
+          "enum": [
+            "COLLABORATOR",
+            "OWNER",
+            "READER"
+          ]
+        },
+        "audit": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Audit"
+          }
+        }
+      },
+      "required": []
+    },
+    "Audit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "payload": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "author": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/AdminUser"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "resource",
+        "action"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "post": {
+      "$ref": "#/definitions/Post"
+    },
+    "postToMediaRel": {
+      "$ref": "#/definitions/PostToMediaRel"
+    },
+    "media": {
+      "$ref": "#/definitions/Media"
+    },
+    "tag": {
+      "$ref": "#/definitions/Tag"
+    },
+    "category": {
+      "$ref": "#/definitions/Category"
+    },
+    "account": {
+      "$ref": "#/definitions/Account"
+    },
+    "session": {
+      "$ref": "#/definitions/Session"
+    },
+    "user": {
+      "$ref": "#/definitions/User"
+    },
+    "userSettings": {
+      "$ref": "#/definitions/UserSettings"
+    },
+    "verificationToken": {
+      "$ref": "#/definitions/VerificationToken"
+    },
+    "adminUser": {
+      "$ref": "#/definitions/AdminUser"
+    },
+    "audit": {
+      "$ref": "#/definitions/Audit"
+    }
+  }
+}

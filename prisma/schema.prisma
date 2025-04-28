@@ -1,0 +1,428 @@
+generator jsonSchema {
+  provider              = "prisma-json-schema-generator"
+  includeRequiredFields = "true"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Address {
+  id         String    @id
+  updated_at DateTime  @default(now())
+  created_at DateTime  @default(now())
+  deleted_at DateTime?
+  user_id    String?
+  addressee  String
+  city       String
+  country    String
+  label      String
+  state      String
+  zip        String
+  unit       String?
+  Seller     Seller?
+}
+
+model Brand {
+  id          String    @id
+  name        String    @unique
+  cover       Json?
+  path        String?
+  external_id String?
+  count       Int       @default(0)
+  active      Int       @default(1) @db.TinyInt
+  products    Product[]
+}
+
+model BrandMedia {
+  brand_id String
+  media_id String
+
+  @@id([brand_id, media_id])
+}
+
+model Category {
+  id         String         @id
+  name       String
+  department String
+  thumbnail  Json?
+  path       String?
+  count      Int?           @default(0)
+  is_enabled Int?           @default(1) @db.TinyInt
+  type       Category_type? @default(product)
+  products   Product[]
+}
+
+model CounterOffer {
+  offer_id         String
+  id               String   @id
+  shipping_rate_id String?
+  intent_id        String?
+  charge_amount    Float
+  address_id       String?
+  user_id          String
+  accepted         Boolean?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now())
+}
+
+model Folder {
+  id          String      @id
+  name        String
+  description String?
+  thumbnail   Json?
+  type        Folder_type @default(PRODUCT)
+  is_public   Boolean
+  user_id     String
+  itemCount   Int?
+
+  @@unique([user_id, name])
+}
+
+model FolderItem {
+  id         String          @id
+  created_at DateTime        @default(now())
+  updated_at DateTime
+  type       FolderItem_type @default(PRODUCT)
+  user_id    String
+  item_id    String
+  item_name  String?
+  folder_id  String?
+
+  @@unique([item_id, folder_id])
+  @@fulltext([item_name])
+}
+
+model Listing {
+  id              String              @id
+  asking_price    Float
+  condition       String
+  external_id     String?
+  description     String?             @db.LongText
+  created_at      DateTime            @default(now())
+  updated_at      DateTime            @default(now())
+  deleted_at      DateTime?
+  image_urls      Json
+  order_id        String?
+  product_id      String              
+  product         Product             @relation(fields: [product_id], references: [id])
+  seller_id       String
+  seller          Seller              @relation(fields: [seller_id], references: [id])
+  size            String
+  state           Listing_state       @default(active)
+  action_deadline String?
+  hashtags        Json?
+  color           String?
+  allow_offers    Boolean?            @default(true)
+  measurements    Json?
+  parcel_type     Listing_parcel_type
+}
+
+model Media {
+  id          String      @id
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @default(now())
+  deleted_at  DateTime?
+  title       String?     @db.VarChar(90)
+  description String?     @db.LongText
+  link        String?
+  user_id     String
+  user        User        @relation(fields: [user_id], references: [id])
+  state       Media_state @default(active)
+  photos      Json
+}
+
+model MediaView {
+  id        String   @id
+  media_id  String
+  user_id   String
+  viewed_at DateTime @default(now())
+}
+
+model Notification {
+  id          String                @id
+  created_at  DateTime              @default(now())
+  type        Notification_type
+  category    Notification_category
+  image       String?
+  title       String
+  body        String
+  external_id String?
+  user_id     String
+  viewed      Boolean               @default(false)
+  touched     Boolean               @default(false)
+}
+
+model Offer {
+  id               String      @id
+  intent_id        String?
+  shipping_rate_id String
+  listing_id       String
+  charge_amount    Float
+  size             String
+  address_id       String
+  product_id       String
+  state            Offer_state @default(pending)
+  user_id          String
+  seller_id        String
+  accepted         Boolean?
+  order_id         String?
+  created_at       DateTime    @default(now())
+  updated_at       DateTime    @default(now())
+  deleted_at       DateTime?
+  expires_at       DateTime
+}
+
+model Order {
+  id                     String              @id
+  product_id             String
+  created_at             DateTime            @default(now())
+  updated_at             DateTime            @default(now())
+  charge_amount          Float
+  card_id                String
+  payment_intent_id      String
+  application_percentage Int
+  application_fee_amount Int
+  stripe_transfer_id     String?
+  user_id                String
+  seller_id              String
+  listing_id             String
+  from_offer             Boolean?
+  expires_at             DateTime
+  shipping_type          Order_shipping_type
+  address_id             String
+  shipped_at             DateTime?
+  delivered_at           DateTime?
+  state                  Order_state         @default(pending_shipping_outbound)
+  rejection_photos       String?             @db.Text
+  rejection_reason       String?
+  rejection_notes        String?
+}
+
+model OutboundShipment {
+  id                      String    @id
+  created_at              DateTime  @default(now())
+  updated_at              DateTime  @default(now())
+  deleted_at              DateTime?
+  address_id              String
+  label_url               String?   @db.LongText
+  shipping_cost           Float
+  external_message        String?
+  external_shipment_id    String
+  external_status         String
+  shipping_region         String
+  shipping_method         String
+  shipping_estimate       Int
+  external_transaction_id String?
+  tracking_number         String?
+  carrier                 String
+  tracking_url_provider   String?   @db.LongText
+  order_id                String    @unique
+}
+
+model PasswordResetToken {
+  id      String   @id
+  token   String
+  expires DateTime
+  used    Boolean  @default(false)
+  userId  String
+}
+
+model Product {
+  id             String      @id
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @default(now())   
+  name           String
+  name_sanitized String
+  brand_id       String
+  brand          Brand       @relation(fields: [brand_id], references: [id])
+  category_id    String
+  category       Category    @relation(fields: [category_id], references: [id])
+  subcategory    SubCategory @relation(fields: [subcategory_id], references: [id])
+  image_urls     Json
+  external_id    String?
+  last_sold_at   DateTime?
+  highest_offer  Int?
+  lowest_listing Int?
+  sold_out       Int         @default(1)
+  subcategory_id String
+  season_year    String?
+  season_time    String?
+  listings       Listing[]
+  deleted_at     DateTime?
+
+  @@fulltext([name])
+}
+
+model ProductMedia {
+  product_id String
+  media_id   String
+
+  @@id([product_id, media_id])
+}
+
+model ProductView {
+  id          String   @id
+  product_id  String
+  brand_id    String
+  category_id String
+  user_id     String
+  viewed_at   DateTime @default(now())
+}
+
+model Season {
+  id       String @id
+  time     String
+  year     String
+  brand_id String
+}
+
+model Seller {
+  id                         String                            @id
+  created_at                 DateTime                          @default(now())
+  updated_at                 DateTime                          @default(now())
+  user_id                    String                            @unique
+  user                       User                              @relation(fields: [user_id], references: [id])
+  address_id                 String?                           @unique
+  address                    Address?                          @relation(fields: [address_id], references: [id])
+  auto_allow                 Boolean                           @default(true)
+  vacation_mode              Boolean                           @default(false)
+  business_name              String?
+  logo                       String?
+  stripe_user_id             String?
+  stripe_verification_status Seller_stripe_verification_status @default(inactive)
+  listings                   Listing[]
+  deleted_at                 DateTime?
+}
+
+model SubCategory {
+  id          String    @id
+  name        String
+  isEnabled   Int       @default(1) @db.TinyInt
+  category_id String
+  products    Product[]
+}
+
+model User {
+  id                 String    @id
+  created_at         DateTime  @default(now())
+  updated_at         DateTime  @default(now())
+  deleted_at         DateTime?
+  default_address_id String?
+  first_name         String
+  last_name          String
+  email              String    @unique
+  password           String
+  clothing_size      String?
+  pant_size          String?
+  shoe_size          String?
+  preferred_username String?
+  onboarding_state   String?
+  stripe_customer_id String?
+  default_card_id    String?
+  fcm_tokens         Json?
+  profile_images     Json?
+  brand_ids          Json?
+  season_ids         Json?
+  sizes              Json?
+  seller_profile_id  String?
+  category_ids       Json?
+  account_id         String?
+  seller             Seller?
+  media              Media[]
+}
+
+enum Notification_type {
+  offer_accepted
+  offer_denied
+  offer_countered
+  offer_created
+  media_live
+  listing_live
+  item_in_transit
+  offer_expired
+  order_expired
+  listing_sold
+  item_shipped
+  item_delivered
+  seller_paid
+}
+
+enum FolderItem_type {
+  PRODUCT
+  MEDIA
+}
+
+enum Notification_category {
+  item
+  media
+  offer
+  bid
+}
+
+enum Folder_type {
+  PRODUCT
+  MEDIA
+}
+
+enum Category_type {
+  product
+  media
+}
+
+enum Media_state {
+  pending
+  rejected
+  active
+}
+
+enum Offer_state {
+  pending
+  inactive
+  accepted
+}
+
+enum Seller_stripe_verification_status {
+  pending
+  inactive
+  active
+}
+
+enum Listing_state {
+  sold
+  pending
+  rejected
+  active
+}
+
+enum Order_shipping_type {
+  direct
+  verified
+}
+
+enum Listing_parcel_type {
+  xx_small
+  x_small
+  small
+  medium
+  large
+  x_large
+}
+
+enum Order_state {
+  canceled
+  pending_shipping_inbound
+  pending_shipping_outbound
+  in_transit_inbound
+  in_transit_outbound
+  shipped_inbound
+  shipped_outbound
+  delivered_inbound
+  delivered_outbound
+}

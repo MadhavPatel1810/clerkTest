@@ -1,0 +1,1539 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "user_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "addressee": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Seller": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Seller"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "addressee",
+        "city",
+        "country",
+        "label",
+        "state",
+        "zip"
+      ]
+    },
+    "Brand": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cover": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "count": {
+          "type": "integer",
+          "default": 0
+        },
+        "active": {
+          "type": "integer",
+          "default": 1
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "BrandMedia": {
+      "type": "object",
+      "properties": {
+        "brand_id": {
+          "type": "string"
+        },
+        "media_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "brand_id",
+        "media_id"
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": 0
+        },
+        "is_enabled": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": 1
+        },
+        "type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": "product",
+          "enum": [
+            "product",
+            "media"
+          ]
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "department"
+      ]
+    },
+    "CounterOffer": {
+      "type": "object",
+      "properties": {
+        "offer_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "shipping_rate_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "intent_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "charge_amount": {
+          "type": "number"
+        },
+        "address_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "accepted": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "offer_id",
+        "id",
+        "charge_amount",
+        "user_id"
+      ]
+    },
+    "Folder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "thumbnail": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "default": "PRODUCT",
+          "enum": [
+            "PRODUCT",
+            "MEDIA"
+          ]
+        },
+        "is_public": {
+          "type": "boolean"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "itemCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "is_public",
+        "user_id"
+      ]
+    },
+    "FolderItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "string",
+          "default": "PRODUCT",
+          "enum": [
+            "PRODUCT",
+            "MEDIA"
+          ]
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "item_id": {
+          "type": "string"
+        },
+        "item_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "folder_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "updated_at",
+        "user_id",
+        "item_id"
+      ]
+    },
+    "Listing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "asking_price": {
+          "type": "number"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "image_urls": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "order_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        },
+        "seller": {
+          "$ref": "#/definitions/Seller"
+        },
+        "size": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "default": "active",
+          "enum": [
+            "sold",
+            "pending",
+            "rejected",
+            "active"
+          ]
+        },
+        "action_deadline": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hashtags": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "color": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allow_offers": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": true
+        },
+        "measurements": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "parcel_type": {
+          "type": "string",
+          "enum": [
+            "xx_small",
+            "x_small",
+            "small",
+            "medium",
+            "large",
+            "x_large"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "asking_price",
+        "condition",
+        "image_urls",
+        "product_id",
+        "seller_id",
+        "size",
+        "parcel_type"
+      ]
+    },
+    "Media": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "link": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "state": {
+          "type": "string",
+          "default": "active",
+          "enum": [
+            "pending",
+            "rejected",
+            "active"
+          ]
+        },
+        "photos": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "user_id",
+        "photos"
+      ]
+    },
+    "MediaView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "media_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "viewed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "media_id",
+        "user_id"
+      ]
+    },
+    "Notification": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "offer_accepted",
+            "offer_denied",
+            "offer_countered",
+            "offer_created",
+            "media_live",
+            "listing_live",
+            "item_in_transit",
+            "offer_expired",
+            "order_expired",
+            "listing_sold",
+            "item_shipped",
+            "item_delivered",
+            "seller_paid"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "item",
+            "media",
+            "offer",
+            "bid"
+          ]
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "viewed": {
+          "type": "boolean",
+          "default": false
+        },
+        "touched": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "category",
+        "title",
+        "body",
+        "user_id"
+      ]
+    },
+    "Offer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "intent_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shipping_rate_id": {
+          "type": "string"
+        },
+        "listing_id": {
+          "type": "string"
+        },
+        "charge_amount": {
+          "type": "number"
+        },
+        "size": {
+          "type": "string"
+        },
+        "address_id": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "default": "pending",
+          "enum": [
+            "pending",
+            "inactive",
+            "accepted"
+          ]
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "seller_id": {
+          "type": "string"
+        },
+        "accepted": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "order_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "shipping_rate_id",
+        "listing_id",
+        "charge_amount",
+        "size",
+        "address_id",
+        "product_id",
+        "user_id",
+        "seller_id",
+        "expires_at"
+      ]
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "charge_amount": {
+          "type": "number"
+        },
+        "card_id": {
+          "type": "string"
+        },
+        "payment_intent_id": {
+          "type": "string"
+        },
+        "application_percentage": {
+          "type": "integer"
+        },
+        "application_fee_amount": {
+          "type": "integer"
+        },
+        "stripe_transfer_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "seller_id": {
+          "type": "string"
+        },
+        "listing_id": {
+          "type": "string"
+        },
+        "from_offer": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "shipping_type": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "verified"
+          ]
+        },
+        "address_id": {
+          "type": "string"
+        },
+        "shipped_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "delivered_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "state": {
+          "type": "string",
+          "default": "pending_shipping_outbound",
+          "enum": [
+            "canceled",
+            "pending_shipping_inbound",
+            "pending_shipping_outbound",
+            "in_transit_inbound",
+            "in_transit_outbound",
+            "shipped_inbound",
+            "shipped_outbound",
+            "delivered_inbound",
+            "delivered_outbound"
+          ]
+        },
+        "rejection_photos": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rejection_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rejection_notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "product_id",
+        "charge_amount",
+        "card_id",
+        "payment_intent_id",
+        "application_percentage",
+        "application_fee_amount",
+        "user_id",
+        "seller_id",
+        "listing_id",
+        "expires_at",
+        "shipping_type",
+        "address_id"
+      ]
+    },
+    "OutboundShipment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "address_id": {
+          "type": "string"
+        },
+        "label_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shipping_cost": {
+          "type": "number"
+        },
+        "external_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_shipment_id": {
+          "type": "string"
+        },
+        "external_status": {
+          "type": "string"
+        },
+        "shipping_region": {
+          "type": "string"
+        },
+        "shipping_method": {
+          "type": "string"
+        },
+        "shipping_estimate": {
+          "type": "integer"
+        },
+        "external_transaction_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tracking_number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "carrier": {
+          "type": "string"
+        },
+        "tracking_url_provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "order_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "address_id",
+        "shipping_cost",
+        "external_shipment_id",
+        "external_status",
+        "shipping_region",
+        "shipping_method",
+        "shipping_estimate",
+        "carrier",
+        "order_id"
+      ]
+    },
+    "PasswordResetToken": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "used": {
+          "type": "boolean",
+          "default": false
+        },
+        "userId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "token",
+        "expires",
+        "userId"
+      ]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "name_sanitized": {
+          "type": "string"
+        },
+        "brand": {
+          "$ref": "#/definitions/Brand"
+        },
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "subcategory": {
+          "$ref": "#/definitions/SubCategory"
+        },
+        "image_urls": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "last_sold_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "highest_offer": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "lowest_listing": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "sold_out": {
+          "type": "integer",
+          "default": 1
+        },
+        "season_year": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "season_time": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "listings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Listing"
+          }
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "name_sanitized",
+        "brand_id",
+        "category_id",
+        "image_urls",
+        "subcategory_id"
+      ]
+    },
+    "ProductMedia": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "string"
+        },
+        "media_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "product_id",
+        "media_id"
+      ]
+    },
+    "ProductView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "viewed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "product_id",
+        "brand_id",
+        "category_id",
+        "user_id"
+      ]
+    },
+    "Season": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "brand_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "time",
+        "year",
+        "brand_id"
+      ]
+    },
+    "Seller": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Address"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "auto_allow": {
+          "type": "boolean",
+          "default": true
+        },
+        "vacation_mode": {
+          "type": "boolean",
+          "default": false
+        },
+        "business_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "logo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stripe_user_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stripe_verification_status": {
+          "type": "string",
+          "default": "inactive",
+          "enum": [
+            "pending",
+            "inactive",
+            "active"
+          ]
+        },
+        "listings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Listing"
+          }
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "user_id"
+      ]
+    },
+    "SubCategory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "isEnabled": {
+          "type": "integer",
+          "default": 1
+        },
+        "category_id": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category_id"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "default_address_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "clothing_size": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pant_size": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shoe_size": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preferred_username": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "onboarding_state": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stripe_customer_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "default_card_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fcm_tokens": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "profile_images": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "brand_ids": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "season_ids": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "sizes": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "seller_profile_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "category_ids": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "account_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "seller": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Seller"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Media"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "password"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "address": {
+      "$ref": "#/definitions/Address"
+    },
+    "brand": {
+      "$ref": "#/definitions/Brand"
+    },
+    "brandMedia": {
+      "$ref": "#/definitions/BrandMedia"
+    },
+    "category": {
+      "$ref": "#/definitions/Category"
+    },
+    "counterOffer": {
+      "$ref": "#/definitions/CounterOffer"
+    },
+    "folder": {
+      "$ref": "#/definitions/Folder"
+    },
+    "folderItem": {
+      "$ref": "#/definitions/FolderItem"
+    },
+    "listing": {
+      "$ref": "#/definitions/Listing"
+    },
+    "media": {
+      "$ref": "#/definitions/Media"
+    },
+    "mediaView": {
+      "$ref": "#/definitions/MediaView"
+    },
+    "notification": {
+      "$ref": "#/definitions/Notification"
+    },
+    "offer": {
+      "$ref": "#/definitions/Offer"
+    },
+    "order": {
+      "$ref": "#/definitions/Order"
+    },
+    "outboundShipment": {
+      "$ref": "#/definitions/OutboundShipment"
+    },
+    "passwordResetToken": {
+      "$ref": "#/definitions/PasswordResetToken"
+    },
+    "product": {
+      "$ref": "#/definitions/Product"
+    },
+    "productMedia": {
+      "$ref": "#/definitions/ProductMedia"
+    },
+    "productView": {
+      "$ref": "#/definitions/ProductView"
+    },
+    "season": {
+      "$ref": "#/definitions/Season"
+    },
+    "seller": {
+      "$ref": "#/definitions/Seller"
+    },
+    "subCategory": {
+      "$ref": "#/definitions/SubCategory"
+    },
+    "user": {
+      "$ref": "#/definitions/User"
+    }
+  }
+}
